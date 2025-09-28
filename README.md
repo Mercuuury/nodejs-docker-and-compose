@@ -1,3 +1,7 @@
 # Докеризация приложения
 
-Перед тем как приступить к выполнению проектной работы разместите в репозитории исходный код фронтенд и бэкенд частей сервиса КупиПодариДай, реализованного вами ранее. 
+| Сервис   | URL/IP-адрес                                                                               |
+| -------- | ------------------------------------------------------------------------------------------ |
+| VPS      | [158.160.163.225](http://158.160.163.225)                                                  |
+| Frontend | [https://kpd.kovshik.nomorepartiessbs.ru](https://kpd.kovshik.nomorepartiessbs.ru)         |
+| Backend  | [https://api.kpd.kovshik.nomorepartiessbs.ru](https://api.kpd.kovshik.nomorepartiessbs.ru) |
