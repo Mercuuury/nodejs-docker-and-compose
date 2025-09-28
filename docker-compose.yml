@@ -3,46 +3,52 @@ version: '3.8'
 services:
   database:
     image: postgres:13-alpine
-    container_name: kupipodariday-postgres
+    container_name: kupipodariday-database
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB: kupipodariday
-      POSTGRES_USER: student
-      POSTGRES_PASSWORD: student
       POSTGRES_PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data/pgdata
-    ports:
-      - "5432:5432"
     networks:
-      - app-network
+      - backend-network
     restart: unless-stopped
 
   backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     container_name: kupipodariday-backend
-    environment:
-      PORT: 4000
-      DB_HOST: database
-      DB_PORT: 5432
-      DB_NAME: kupipodariday
-      DB_USERNAME: student
-      DB_PASSWORD: student
-      DB_SYNC: true
-      JWT_SECRET: super-strong-secret
-      JWT_EXPIRES_IN: 7d
+    env_file:
+      - .env
+      - ./backend/.env
     ports:
-      - "4000:4000"
+      - "4000:3000"
     depends_on:
-      - postgres
+      - database
     networks:
-      - app-network
+      - backend-network
+      - frontend-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: kupipodariday-frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - frontend-network
     restart: unless-stopped
 
 volumes:
   postgres_data:
 
 networks:
-  app-network:
+  backend-network:
+    driver: bridge
+  frontend-network:
     driver: bridge
